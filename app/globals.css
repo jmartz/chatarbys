@@ -1,17 +1,20 @@
 @import "tailwindcss";
 
+/* === Base theme variables === */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* === ChatArbys POS theme variables === */
+  --pos-bg: #0b0f0b;
+  --pos-fg: #d7fbd7;
+  --pos-muted: #8fd48f;
+  --pos-border: #1f3a1f;
+  --pos-panel: #0f150f;
+  --pos-accent: #d7fbd7;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* Keep your existing dark-mode behavior */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -19,8 +22,16 @@
   }
 }
 
+/* Force the whole site into "POS mode" (monospace + dark). */
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--pos-bg);
+  color: var(--pos-fg);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 }
