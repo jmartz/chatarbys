@@ -9,7 +9,10 @@ export default function Home() {
     setOutput("Thinking...");
     const res = await fetch("/api/chat", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-chatarbys-secret": process.env.NEXT_PUBLIC_CHATARBYS_SECRET,
+      },
       body: JSON.stringify({ message }),
     });
     const data = await res.json();
