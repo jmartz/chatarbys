@@ -5,6 +5,11 @@ const client = new OpenAI({
 });
 
 export async function POST(req) {
+  const secret = req.headers.get("x-chatarbys-secret");
+  if (secret !== process.env.CHATARBYS_SECRET) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
   const { message } = await req.json();
 
   const instructions = `
