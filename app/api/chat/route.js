@@ -37,7 +37,7 @@ Refuse illegal or harmful requests.
 
   // Stream from OpenAI
   const stream = await client.responses.stream({
-    model: "gpt-5-mini",
+    model: "gpt-5-pro",
     instructions,
     input: message,
   });
