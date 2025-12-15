@@ -6,18 +6,31 @@ export default function Home() {
   const [output, setOutput] = useState("");
 
   async function send() {
-    setOutput("Thinking...");
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-chatarbys-secret": process.env.NEXT_PUBLIC_CHATARBYS_SECRET,
-      },
-      body: JSON.stringify({ message }),
-    });
-    const data = await res.json();
-    setOutput(data.text || "(no response)");
+  setOutput("");
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-chatarbys-secret": process.env.NEXT_PUBLIC_CHATARBYS_SECRET,
+    },
+    body: JSON.stringify({ message }),
+  });
+
+  if (!res.ok || !res.body) {
+    const text = await res.text().catch(() => "");
+    setOutput(`Error ${res.status}: ${text || res.statusText}`);
+    return;
   }
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    setOutput((prev) => prev + decoder.decode(value));
+  }
+}
 
   return (
     <main style={{ maxWidth: 700, margin: "40px auto", fontFamily: "system-ui" }}>
